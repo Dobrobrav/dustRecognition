@@ -1,8 +1,9 @@
-# from PIL import Image
 from numpy import ndarray
-from skimage import io, img_as_float
+from skimage import io
 import cv2 as cv
+import matplotlib.pyplot as plt
 from typing import TypeAlias
+from collections import OrderedDict
 
 
 Picture: TypeAlias = ndarray
@@ -151,36 +152,54 @@ def show(img: Picture, name: str = "some_img") -> None:
     cv.imshow(name, img)
 
 
+def build_histogram(distribution: OrderedDict[DustSize, Quantity]) -> None:
+    n = sum(distribution.values())
+    Size = list(distribution)
+    W = [ni / n for ni in distribution.values()]
+    # plt.figure()
+    plt.plot(Size, W)
+    plt.show()
+
+
+
+
+
 def main():
-    BOUND = 160
-    B = 10
+    fig, ax = plt.subplots()
+
+    BOUND = 145
+    A = 50
+    B = 15
+    C = 50
     FILTERED_BLURRED_NAME = f"Afiltered Blurred Bound: {BOUND}"
     FILTERED_NON_BLURRED_NAME = f"Afiltered Non-Blurred Bound: {BOUND}"
 
-    # raw_img = read_img("img.jpg")
-    raw_img = read_img("test_img.jpg")
+    raw_img = read_img("img.jpg")
+    # raw_img = read_img("test_img.jpg")
 
     gs_img = get_grayscale(raw_img)
-    blurred_img = get_blurred(gs_img, b=B, blur=True)
+    blurred_img = get_blurred(gs_img,a=A, b=B, c=C, blur=True)
     filtered_blurred_img = get_filtered(blurred_img, bound=BOUND, filter=True)
 
     save_to_file(filtered_blurred_img, f"{FILTERED_BLURRED_NAME}.png")
 
-    # show(gs_img, f"grayscale")
-    # show(filtered_blurred_img, FILTERED_BLURRED_NAME)
+    show(gs_img, f"grayscale")
+    show(filtered_blurred_img, FILTERED_BLURRED_NAME)
 
     dust_field = DustField(filtered_blurred_img)
-    print(dust_field.distribute_dust_by_size())
+
+    distribution = dust_field.distribute_dust_by_size()
+    distribution = OrderedDict(sorted(distribution.items()))
+    distribution.popitem()
+    distribution.popitem()
+
+    # print(distribution)
+
+    build_histogram(distribution)
 
 
-def test() -> None:
-    test_list = [
-        [0 for j in range(3)]
-        for i in range(3)
-    ]
-    dust_field = DustField(test_list)
 
-    print(dust_field.field)
+
 
 
 
