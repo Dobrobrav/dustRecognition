@@ -7,10 +7,11 @@ from cell import *
 def main():
     fig, ax = plt.subplots()
 
-    BOUND = 145
+    BOUND = 140
     A = 50
-    B = 15
+    B = 5
     C = 50
+
     FILTERED_BLURRED_NAME = f"Afiltered Blurred Bound: {BOUND}"
     FILTERED_NON_BLURRED_NAME = f"Afiltered Non-Blurred Bound: {BOUND}"
 
@@ -31,18 +32,9 @@ def main():
     distribution = dust_field.distribute_dust_by_size()
     distribution = OrderedDict(sorted(distribution.items()))
     distribution.popitem()
-    distribution.popitem()
-
-    # print(distribution)
+    # distribution.popitem()
 
     build_histogram(distribution)
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
