@@ -20,3 +20,4 @@ class Cell:
     def dust_piece(self, dust_piece: 'DustPiece') -> None:
         self._dust_piece = dust_piece
         dust_piece.add_cell(self)
+
