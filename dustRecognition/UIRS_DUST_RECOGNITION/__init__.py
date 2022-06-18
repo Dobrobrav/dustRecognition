@@ -15,8 +15,8 @@ def main():
     FILTERED_BLURRED_NAME = f"Afiltered Blurred Bound: {BOUND}"
     FILTERED_NON_BLURRED_NAME = f"Afiltered Non-Blurred Bound: {BOUND}"
 
-    # raw_img = read_img("../pictures/img.jpg")
-    raw_img = read_img("../pictures/test_img.jpg")
+    raw_img = read_img("../pictures/img.jpg")
+    # raw_img = read_img("../pictures/test_img.jpg")
 
     gs_img = get_grayscale(raw_img)
     blurred_img = get_blurred(gs_img, a=A, b=B, c=C, blur=True)
@@ -30,8 +30,9 @@ def main():
     dust_field = DustField(filtered_blurred_img)
 
     distribution = dust_field.distribute_dust_by_size()
+    print(sum(distribution.values()))
     distribution = OrderedDict(sorted(distribution.items()))
-    # distribution.popitem()
+    distribution.popitem()
     print(distribution)
     # distribution.popitem()
 

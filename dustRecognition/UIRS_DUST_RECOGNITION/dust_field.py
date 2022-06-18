@@ -29,6 +29,7 @@ class DustField:
             for cell in row:
                 if cell.color == 255 or cell.dust_piece:
                     continue
+                self._depth_of_recursion = 1
                 self._recognize_dust_piece(cell)
 
     def _recognize_dust_piece(self, cell: Cell, dust_piece: DustPiece = None) -> None:
@@ -36,7 +37,9 @@ class DustField:
         cell.dust_piece = dust_piece or DustPiece(self)
         neighbors = self._get_neighboring_dust_cells(cell)
         for neighbor in neighbors:
-            self._recognize_dust_piece(neighbor, dust_piece=cell.dust_piece)
+            self._depth_of_recursion += 1
+            if self._depth_of_recursion < 993:
+                self._recognize_dust_piece(neighbor, dust_piece=cell.dust_piece)
 
     def _get_neighboring_dust_cells(self, cell) -> list[Cell]:
         """ Return only neighbours which haven't found their dust piece yet. """
@@ -51,9 +54,12 @@ class DustField:
             self._field[i + 1][j - 1],
             self._field[i][j - 1],
             self._field[i - 1][j - 1],
-            self._field[i - 1][j]
+            self._field[i - 1][j],
         )
-        return list(filter(lambda cell: cell.dust_piece is None and cell.color != 255, candidate_cells))
+        # return list(filter(lambda cell: cell.dust_piece is None and cell.color != 255, candidate_cells))
+        return_list = [cell for cell in candidate_cells if cell.dust_piece is None and cell.color != 255]
+        # print(len(return_list))
+        return return_list
 
     def add_dust_piece(self, dust_piece: DustPiece) -> None:
         self.dust_pieces.append(dust_piece)
