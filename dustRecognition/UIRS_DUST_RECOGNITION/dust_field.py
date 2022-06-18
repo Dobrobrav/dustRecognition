@@ -49,6 +49,9 @@ class DustField:
             self._field[i + 1][j + 1],
             self._field[i + 1][j],
             self._field[i + 1][j - 1],
+            self._field[i][j - 1],
+            self._field[i - 1][j - 1],
+            self._field[i - 1][j]
         )
         return list(filter(lambda cell: cell.dust_piece is None and cell.color != 255, candidate_cells))
 
