@@ -33,7 +33,6 @@ if __name__ == '__main__':
     distribution = OrderedDict(sorted(distribution.items()))
     distribution.popitem()
     print(distribution)
-    # distribution.popitem()
 
     build_histogram(distribution)
     cv.waitKey(0)

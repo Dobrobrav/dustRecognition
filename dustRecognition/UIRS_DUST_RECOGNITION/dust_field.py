@@ -3,19 +3,19 @@ from tools import Picture, DustSize, Quantity
 
 
 class DustField:
-    dust_pieces: list[DustPiece]
+    _dust_pieces: list[DustPiece]
     _field: list[list[Cell]]
 
     def __init__(self, field: Picture):
         field = list([list(row) for row in field])
-        self.dust_pieces = []
+        self._dust_pieces = []
         for i, row in enumerate(field):
             for j, color in enumerate(row):
                 row[j] = Cell(i, j, color)
         self.field = field
 
     def distribute_dust_by_size(self) -> dict[DustSize, Quantity]:
-        """ Distinct dust pieces in the field by size. """
+        """ Distribute dust pieces in the field by size. """
         self._recognize_dust_pieces()
         return self._get_distribution_data()
 
@@ -43,6 +43,7 @@ class DustField:
         i, j = cell.i, cell.j
         if j == len(self.field[0]) - 1 or i == len(self.field) - 1:
             return []
+
         candidate_cells = (
             self._field[i][j + 1],
             self._field[i + 1][j + 1],
@@ -56,11 +57,11 @@ class DustField:
         return return_list
 
     def add_dust_piece(self, dust_piece: DustPiece) -> None:
-        self.dust_pieces.append(dust_piece)
+        self._dust_pieces.append(dust_piece)
 
     def _get_distribution_data(self) -> dict[DustSize, Quantity]:
         distribution = {}
-        for dust_piece in self.dust_pieces:
+        for dust_piece in self._dust_pieces:
             current_size = len(dust_piece.cells)
             distribution[current_size] = distribution.setdefault(current_size, 0) + 1
         return distribution
