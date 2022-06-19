@@ -38,8 +38,8 @@ def get_filtered(img: Picture, bound: int = 180, filter: bool = True) -> Picture
     return copy_img
 
 
-def save_to_file(img: Picture, name: str = "../results/result.png") -> None:
-    cv.imwrite(name, img)
+def save_to_file(img: Picture, name: str = "result.png") -> None:
+    cv.imwrite(f"../results/{name}", img)
 
 
 def show(img: Picture, name: str = "some_img") -> None:
@@ -48,8 +48,7 @@ def show(img: Picture, name: str = "some_img") -> None:
 
 def build_histogram(distribution: OrderedDict[DustSize, Quantity]) -> None:
     n = sum(distribution.values())
-    Size = list(distribution)
+    Size = [4 * area for area in list(distribution)]
     W = [ni / n for ni in distribution.values()]
-    # plt.figure()
     plt.plot(Size, W)
     plt.show()
