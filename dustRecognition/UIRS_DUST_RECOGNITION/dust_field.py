@@ -52,9 +52,7 @@ class DustField:
             self._field[i - 1][j - 1],
             self._field[i - 1][j],
         )
-        # return list(filter(lambda cell: cell.dust_piece is None and cell.color != 255, candidate_cells))
         return_list = [cell for cell in candidate_cells if cell.dust_piece is None and cell.color != 255]
-        # print(len(return_list))
         return return_list
 
     def add_dust_piece(self, dust_piece: DustPiece) -> None:

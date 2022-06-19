@@ -3,8 +3,7 @@ from dust_field import *
 from dust_piece import *
 from cell import *
 
-
-def main():
+if __name__ == '__main__':
     fig, ax = plt.subplots()
 
     BOUND = 160
@@ -37,10 +36,5 @@ def main():
     # distribution.popitem()
 
     build_histogram(distribution)
-
-
-
-if __name__ == '__main__':
-    main()
     cv.waitKey(0)
     cv.destroyAllWindows()
