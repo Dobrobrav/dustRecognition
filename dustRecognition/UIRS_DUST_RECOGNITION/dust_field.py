@@ -53,7 +53,10 @@ class DustField:
             self._field[i - 1][j - 1],
             self._field[i - 1][j],
         )
-        return_list = [cell for cell in candidate_cells if cell.dust_piece is None and cell.color != 255]
+        return_list = [
+            cell for cell in candidate_cells
+            if cell.dust_piece is None and cell.color != 255
+        ]
         return return_list
 
     def add_dust_piece(self, dust_piece: DustPiece) -> None:
