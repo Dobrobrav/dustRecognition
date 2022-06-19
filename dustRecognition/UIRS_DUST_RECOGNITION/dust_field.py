@@ -17,11 +17,7 @@ class DustField:
     def distribute_dust_by_size(self) -> dict[DustSize, Quantity]:
         """ Distinct dust pieces in the field by size. """
         self._recognize_dust_pieces()
-        distribution = {}
-        for dust_piece in self.dust_pieces:
-            current_size = len(dust_piece.cells)
-            distribution[current_size] = distribution.setdefault(current_size, 0) + 1
-        return distribution
+        return self._get_distribution_data()
 
     def _recognize_dust_pieces(self) -> None:
         """ Searches for dust (<255) cells which haven't found their dust_piece yet. """
@@ -63,6 +59,13 @@ class DustField:
 
     def add_dust_piece(self, dust_piece: DustPiece) -> None:
         self.dust_pieces.append(dust_piece)
+
+    def _get_distribution_data(self) -> dict[DustSize, Quantity]:
+        distribution = {}
+        for dust_piece in self.dust_pieces:
+            current_size = len(dust_piece.cells)
+            distribution[current_size] = distribution.setdefault(current_size, 0) + 1
+        return distribution
 
     @property
     def field(self) -> list[list[Cell]]:
